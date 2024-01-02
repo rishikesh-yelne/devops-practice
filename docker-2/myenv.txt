@@ -1,0 +1,4 @@
+USERNAME=<UnityID>
+REPO=<RepoName>
+GITHUB_TOKEN=<GitHubToken>
+HOST=<HOST>

@@ -1,0 +1,1 @@
+Trying out GitHub Actions with a simple job

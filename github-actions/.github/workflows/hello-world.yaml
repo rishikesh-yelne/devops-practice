@@ -1,7 +1,20 @@
 name: hello-world
-on: push
+run-name: ${{ github.actor }} is learning
+on: 
+  pull_request:
+    types:
+      - opened
+      - reopened
 jobs:
-  this-is-a-job-name:
+  sample-job:
     runs-on: self-hosted
     steps:
-      - run: exit 0
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: List branches
+        run: |
+          USERNAME=${{ github.actor }}
+          REPO=${{ github.event.repository.name }}
+          TOKEN=${{ secrets.NCSU_GITHUB_TOKEN }}
+          curl -H "Authorization: Bearer $TOKEN" \
+            "https://github.ncsu.edu/api/v3/repos/$USERNAME/$REPO/branches"

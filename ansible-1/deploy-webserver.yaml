@@ -1,0 +1,26 @@
+---
+- name: Demo playbook
+  hosts: myserver
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest
+        
+    - name: Start nginx service
+      service:
+        name: nginx
+        enabled: true
+        state: started
+    
+    - name: Create a custom index.html file
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <h1>Hello Ansible World!</h1>
+    
+    - name: Expose port 80 with iptables
+      shell: 
+        "sudo iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT"

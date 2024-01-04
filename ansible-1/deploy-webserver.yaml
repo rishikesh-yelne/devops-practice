@@ -15,12 +15,42 @@
         enabled: true
         state: started
     
-    - name: Create a custom index.html file
-      copy:
-        dest: /var/www/html/index.html
-        content: |
-          <h1>Hello Ansible World!</h1>
-    
-    - name: Expose port 80 with iptables
+    - name: Expose port 3000 with iptables
       shell: 
-        "sudo iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT"
+        "sudo iptables -I INPUT -p tcp -m tcp --dport 3000 -j ACCEPT"
+    
+    - name: Install nodejs and npm
+      apt:
+        name: 
+          - nodejs
+          - npm
+        state: latest
+    
+    - name: Copy nodejs app files
+      copy:
+        src: /ws4/node-app/
+        dest: /var/www/node-app
+
+    - name: Install npm packages
+      npm:
+        path: /var/www/node-app
+    
+    - name: Run nodejs app on port 3000
+      command: "node /var/www/node-app/app.js"
+      async: 300
+      poll: 0
+    
+    - name: Wait to be responsive
+      wait_for:
+        port: 3000
+        delay: 10
+        timeout: 60
+    
+    - name: Test app
+      uri:
+        url: http://localhost:3000/
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 3
+      delay: 10

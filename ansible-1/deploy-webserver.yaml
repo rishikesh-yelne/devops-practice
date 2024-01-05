@@ -26,6 +26,11 @@
           - npm
         state: latest
     
+    - name: Install pm2
+      npm:
+        name: pm2
+        global: yes
+    
     - name: Copy nodejs app files
       copy:
         src: /ws4/node-app/
@@ -36,9 +41,7 @@
         path: /var/www/node-app
     
     - name: Run nodejs app on port 3000
-      command: "node /var/www/node-app/app.js"
-      async: 300
-      poll: 0
+      command: "pm2 start /var/www/node-app/app.js --name node-app"
     
     - name: Wait to be responsive
       wait_for:

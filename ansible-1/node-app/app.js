@@ -14,3 +14,13 @@ const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  // Perform any necessary cleanup or logging here
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Perform any necessary cleanup or logging here
+});

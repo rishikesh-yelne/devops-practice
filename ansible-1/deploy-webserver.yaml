@@ -36,12 +36,53 @@
         src: /ws4/node-app/
         dest: /var/www/node-app
 
+    - name: Copy db file
+      copy:
+        src: /ws4/db.sql
+        dest: /
+    
     - name: Install npm packages
       npm:
         path: /var/www/node-app
     
+    - name: Install MySQL server
+      apt:
+        name: 
+          - mysql-server
+          - libmysqlclient-dev
+          - python3-pip
+        state: latest
+    
+    - name: Install mysqlclient using pip
+      pip:
+        name: mysqlclient
+    
+    - name: Start MySQL service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+    
+    - name: Create a MySQL database
+      mysql_db:
+        name: sample_db
+        state: present
+      become: yes
+    
+    - name: Create a MySQL user
+      mysql_user:
+        name: "{{ lookup('env', 'DB_USER') }}"
+        password: "{{ lookup('env', 'DB_PASSWORD') }}"
+        priv: 'sample_db.*:ALL'
+        state: present
+      become: yes
+    
+    - name: Create MySQL table using SQL script
+      shell: "mysql -u {{ lookup('env', 'DB_USER') }} -p'{{ lookup('env', 'DB_PASSWORD') }}' sample_db < /db.sql"
+      become: yes
+
     - name: Run nodejs app on port 3000
-      command: "pm2 start /var/www/node-app/app.js --name node-app"
+      command: "pm2 start /var/www/node-app/app.js --name node-app -f"
     
     - name: Wait to be responsive
       wait_for:

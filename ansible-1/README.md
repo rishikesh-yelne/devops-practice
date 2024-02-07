@@ -2,7 +2,7 @@ Create a host and web server deployment file to run an Ansible Playbook \
 Create a docker which installs ansible, openssh and bash to run the Ansible Playbook \
 Host it on a VCL instance of Ubuntu 
 
-Ensure that the remote instance can be `ssh`-ed without password by appending the `ssh` key in the `authorized_keys` file on the remote server.
+Ensure that the remote instance can be `ssh`-ed without password by appending the `ssh` key in the `authorized_keys` file on the remote server. \
 Steps: 
 
 If you're using Powershell, you'll want to replace the `~` in the commands below with your full path, something like `C:/Users/USERNAME/.ssh/.id_rsa.pub`.

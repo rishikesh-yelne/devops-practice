@@ -1,0 +1,14 @@
+all:
+  children:
+    appvm:
+      hosts:
+        nodeserver:
+          ansible_host: 152.7.179.29
+          ansible_user: ryelne
+          ansible_python_interpreter: /usr/bin/python3
+    dbvm:
+      hosts:
+        dbserver:
+          ansible_host: 152.7.176.40
+          ansible_user: ryelne
+          ansible_python_interpreter: /usr/bin/python3

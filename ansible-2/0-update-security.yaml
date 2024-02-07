@@ -1,0 +1,13 @@
+---
+- name: Update Security
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update package cache
+      package_facts:
+        manager: auto
+
+    - name: Upgrade all packages to the latest version
+      package:
+        name: "*"
+        state: latest

@@ -3,7 +3,7 @@ Create a docker which installs ansible, openssh and bash to run the Ansible Play
 Host it on a VCL instance of Ubuntu 
 
 Ensure that the remote instance can be `ssh`-ed without password by appending the `ssh` key in the `authorized_keys` file on the remote server.
-Steps: \
+Steps: 
 
 If you're using Powershell, you'll want to replace the `~` in the commands below with your full path, something like `C:/Users/USERNAME/.ssh/.id_rsa.pub`.
 
@@ -22,10 +22,17 @@ docker build . --tag ws4
 
 Run docker
 ```
-docker run -it -v ${PWD}:/ws4 -v ${HOME}/.ssh:/root/.ssh --env-file .\myenv.txt ws4
+docker run -it -v ${PWD}:/ws4 -v ${HOME}/.ssh:/root/.ssh ws4
 ```
 
-In the docker's bash: \
+In the docker's bash: 
 ```
 ansible-playbook -i hosts.yaml deploy-webserver.yaml
 ```
+
+After successful completion of the Ansible tasks, you can try out the NodeJS App using the URL in the hosts file:
+
+`http://<IP>:3000/` should return 'Hello, World!' 
+
+`http://<IP>:3000/data` should return a random point, the closest point present in the csv file (which was loaded in MySQL DB) and the distance between them. \
+Consecutive hits to the same endpoint will show different results.

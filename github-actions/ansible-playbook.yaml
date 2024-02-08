@@ -1,0 +1,11 @@
+---
+- name: Demo playbook
+  hosts: myserver 
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: install nginx
+      apt:
+        name: nginx
+        state: latest
+

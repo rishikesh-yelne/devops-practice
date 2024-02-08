@@ -1,0 +1,12 @@
+name: release-lint-ansible
+on:
+  push:
+    branches: ["main", "dev", "release*"]
+jobs:
+  build:
+    name: Ansible Lint # Naming the build is important to use it as a status check
+    runs-on: <CHANGE-THIS>
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@main
